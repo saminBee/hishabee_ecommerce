@@ -94,6 +94,7 @@ class HomePage extends StatelessWidget {
               ),),
               Obx(()=>Expanded(
                 child: GridView.builder(
+                  controller: _productController.productScrollController.value,
                   itemCount: _productController.searchedProduct.length,
                   shrinkWrap: true,
                   gridDelegate:  const SliverGridDelegateWithMaxCrossAxisExtent(
