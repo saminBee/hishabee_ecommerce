@@ -4,6 +4,7 @@ import 'package:hishabee_ecommerce/theme1/controller/product_controller/product_
 import 'package:get/get.dart';
 
 import '../../../utils.dart';
+import '../../model/cart/cart_model_class.dart';
 class CategorizedProduct extends StatefulWidget {
   int? categoryId;
 
@@ -47,13 +48,16 @@ class _CategorizedProductState extends State<CategorizedProduct> {
                     padding: const EdgeInsets.all(8.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(6),
-                      child: CachedNetworkImage(
-                        imageUrl: 'https://hishabee.fra1.digitaloceanspaces.com/business-manager/9/mRG4csXxQELM7egTjD88wUrbI0Rb6uXtKHmEenx1.jpg',
+                      child: _productController.searchedProduct[index]['image_url'] == null ||
+                          _productController.searchedProduct[index]['image_url'] == '' ||
+                          _productController.searchedProduct[index]['image_url'] == 'null'
+                          ? Image.asset('assets/placeholders/emptyImage.png'): CachedNetworkImage(
+                        imageUrl: _productController.searchedProduct[index]['image_url'],
                         height: 70,
                       ),
                     ),
                   ),
-                  Text('${_productController.categorizedProduct[index]['name']}'),
+                  Text('${_productController.categorizedProduct[index]['name']}', textAlign: TextAlign.center,),
 
                   Text('৳${_productController.categorizedProduct[index]['selling_price']}'),
 
@@ -84,7 +88,7 @@ class _CategorizedProductState extends State<CategorizedProduct> {
                         Expanded(
                           child: InkWell(
                             onTap:(){
-                              _productController.cart.add(_productController.categorizedProduct[index]);
+                              _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
                               // for(int i = 0;i< _productController.cart.length;i++){
                               //   if(_productController.searchedProduct[index]['id'] != _productController.cart[i]['id']){
                               //

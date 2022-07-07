@@ -38,6 +38,7 @@ dependencies:
   cached_network_image: ^3.2.1
   get: ^4.6.5
   fluttertoast: ^8.0.9
+  flutter_cart: ^0.0.7
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +65,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/splash_screen/
+    - assets/placeholders/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

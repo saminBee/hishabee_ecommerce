@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_cart/flutter_cart.dart';
 import 'package:get/get.dart';
 import 'package:hishabee_ecommerce/api_services.dart';
 import 'package:hishabee_ecommerce/theme1/model/product/all_products.dart';
 import 'package:hishabee_ecommerce/utils.dart';
+
+import '../../model/cart/cart_model_class.dart';
 
 class ProductController extends GetxController {
   final ApiService _apiService = ApiService();
@@ -10,8 +13,11 @@ class ProductController extends GetxController {
   final products = [].obs;
   final searchedProduct = [].obs;
   final categories = [].obs;
-  final cart = [].obs;
+  final cart = <dynamic>[].obs;
   final categorizedProduct = [].obs;
+  final totalCartValue = 0.0.obs;
+
+  // final cartPackage = FlutterCart();
 
   ///page
   final pageNumber = 1.obs;

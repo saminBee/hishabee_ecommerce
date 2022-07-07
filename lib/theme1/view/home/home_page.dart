@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:hishabee_ecommerce/theme1/controller/product_controller/product_controller.dart';
+import 'package:hishabee_ecommerce/theme1/model/cart/cart_model_class.dart';
 import 'package:hishabee_ecommerce/utils.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +10,7 @@ import '../cart/cart.dart';
 class HomePage extends StatelessWidget {
 
   final ProductController _productController = Get.put(ProductController());
+  final productInCart = 1.obs;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,13 +113,16 @@ class HomePage extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),
-                              child: CachedNetworkImage(
-                                imageUrl: 'https://hishabee.fra1.digitaloceanspaces.com/business-manager/9/mRG4csXxQELM7egTjD88wUrbI0Rb6uXtKHmEenx1.jpg',
+                              child: _productController.searchedProduct[index]['image_url'] == null ||
+                                  _productController.searchedProduct[index]['image_url'] == '' ||
+                                  _productController.searchedProduct[index]['image_url'] == 'null'
+                                ? Image.asset('assets/placeholders/emptyImage.png'): CachedNetworkImage(
+                                imageUrl: _productController.searchedProduct[index]['image_url'],
                                 height: 70,
                               ),
                             ),
                           ),
-                          Text('${_productController.searchedProduct[index]['name']}'),
+                          Text('${_productController.searchedProduct[index]['name']}',textAlign: TextAlign.center,),
 
                           Text('৳${_productController.searchedProduct[index]['selling_price']}'),
 
@@ -138,7 +143,7 @@ class HomePage extends StatelessWidget {
                                         padding: EdgeInsets.all(8.0),
                                         child: Center(
                                           child: Text('Details', style: TextStyle(
-                                            fontSize: 12,color: Colors.white
+                                            fontSize: 10,color: Colors.white
                                           ),),
                                         ),
                                       ),
@@ -148,14 +153,9 @@ class HomePage extends StatelessWidget {
                                 Expanded(
                                   child: InkWell(
                                     onTap:(){
-                                      _productController.cart.add(_productController.searchedProduct[index]);
-                                      // for(int i = 0;i< _productController.cart.length;i++){
-                                      //   if(_productController.searchedProduct[index]['id'] != _productController.cart[i]['id']){
-                                      //
-                                      //   }else{
-                                      //
-                                      //   }
-                                      // }
+                                      _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
+                                      _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
+                                      print('cart: ${_productController.cart[0]}');
                                     },
                                     child: Container(
                                       decoration: const BoxDecoration(
@@ -165,7 +165,7 @@ class HomePage extends StatelessWidget {
                                         padding: EdgeInsets.all(8.0),
                                         child: Center(
                                           child: Text('Add to Cart', style: TextStyle(
-                                              fontSize: 12
+                                              fontSize: 10
                                           ),),
                                         ),
                                       ),
