@@ -28,7 +28,7 @@ class _CartState extends State<Cart> {
       body: SafeArea(
         child: Column(
           children: [
-            ListView.builder(
+            Obx(()=>ListView.builder(
               itemCount: _productController.cart.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
@@ -39,66 +39,67 @@ class _CartState extends State<Cart> {
                 // }
                 return Card(
                     child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(child: Text('${_productController.cart[index].product['name']}')),
-                      Expanded(
-                        flex: 2,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text('${_productController.cart[index].product['name']}')),
+                          Expanded(
+                            flex: 2,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
 
-                                        setState((){
-                                          if(_productController.cart[index].quantity > 1){
-                                            --_productController.cart[index].quantity;
-                                            // if(_productController.cart[index].quantity == 0){
-                                            //   _productController.cart.remove(_productController.cart[index].product);
-                                            // }
-                                            _productController.totalCartValue.value = _productController.totalCartValue.value - _productController.cart[index].product['selling_price'];
-                                          }
-                                        });
+                                            setState((){
+                                              if(_productController.cart[index].quantity > 1){
+                                                --_productController.cart[index].quantity;
+                                                // if(_productController.cart[index].quantity == 0){
+                                                //   _productController.cart.remove(_productController.cart[index].product);
+                                                // }
+                                                _productController.totalCartValue.value = _productController.totalCartValue.value - _productController.cart[index].product['selling_price'];
+                                              }
+                                            });
 
-                                      },
-                                      icon: const Icon(Icons.remove_circle_outline)),
-                                  Text('${_productController.cart[index].quantity}'),
-                                  IconButton(
-                                      onPressed: () {
-                                        setState((){
-                                          ++_productController.cart[index].quantity;
-                                          _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.cart[index].product['selling_price'];
-                                        });
-                                        print(_productController.cart[index].quantity);
-                                      },
-                                      icon: const Icon(Icons.add_circle_outline_sharp)),
-                                ],
-                              ),
+                                          },
+                                          icon: const Icon(Icons.remove_circle_outline)),
+                                      Text('${_productController.cart[index].quantity}'),
+                                      IconButton(
+                                          onPressed: () {
+                                            setState((){
+                                              ++_productController.cart[index].quantity;
+                                              _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.cart[index].product['selling_price'];
+                                            });
+                                            print(_productController.cart[index].quantity);
+                                          },
+                                          icon: const Icon(Icons.add_circle_outline_sharp)),
+                                    ],
+                                  ),
+                                ),
+                                Obx(()=> Text('৳ ${
+                                    _productController.cart[index].product['selling_price'] * _productController.cart[index].quantity
+                                }')),
+                                IconButton(
+                                    onPressed: (){
+                                      setState((){
+
+                                        _productController.totalCartValue.value =
+                                            _productController.totalCartValue.value - (_productController.cart[index].product['selling_price'] * _productController.cart[index].quantity);
+                                        _productController.cart.removeAt(index);
+                                      });
+                                    },
+                                    icon: Icon(Icons.dangerous, color: Colors.red,))
+                              ],
                             ),
-                            Obx(()=> Text('৳ ${
-                                _productController.cart[index].product['selling_price'] * _productController.cart[index].quantity
-                            }')),
-                            IconButton(
-                                onPressed: (){
-                                  setState((){
-                                    _productController.cart.removeAt(index);
-                                    _productController.totalCartValue.value =
-                                        _productController.totalCartValue.value - (_productController.cart[index].product['selling_price'] * _productController.cart[index].quantity);
-                                  });
-                                },
-                                icon: Icon(Icons.dangerous, color: Colors.red,))
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ));
+                          )
+                        ],
+                      ),
+                    ));
               },
-            ),
+            )),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
