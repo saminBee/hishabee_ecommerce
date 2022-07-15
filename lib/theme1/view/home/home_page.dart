@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -66,16 +68,12 @@ class HomePage extends StatelessWidget {
                   )
                 ],
               ),
-              CarouselSlider(
+              Obx(()=>CarouselSlider(
                 options: CarouselOptions(
                   height: 100,
                   autoPlay: true,
                 ),
-                items: [
-                  'https://hishabee.fra1.digitaloceanspaces.com/uploads/sliders/sample/1.png',
-                  'https://hishabee.fra1.digitaloceanspaces.com/uploads/sliders/sample/2.png',
-                  'https://hishabee.fra1.digitaloceanspaces.com/uploads/sliders/sample/3.png',
-                ].map((i) {
+                items: _productController.shop.value == null ? []: jsonDecode(_productController.shop.value['shop']['sliders']).map<Widget>((i) {
                   return Builder(
                     builder: (BuildContext context) {
                       return Padding(
@@ -89,8 +87,8 @@ class HomePage extends StatelessWidget {
                     },
                   );
                 }).toList(),
-              ),
-              SizedBox(height: 20,),
+              )),
+              const SizedBox(height: 20,),
               const Text('All Products', style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.bold
               ),),

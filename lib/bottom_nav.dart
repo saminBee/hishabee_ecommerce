@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hishabee_ecommerce/theme1/view/category/categories.dart';
 import 'package:hishabee_ecommerce/theme1/view/home/home_page.dart';
+import 'package:hishabee_ecommerce/theme1/view/login%20registartion/login.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);
@@ -10,13 +12,12 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
+  final box = GetStorage();
   int _selectedIndex = 0;
   static  final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     Categories(),
-    const Text(
-      'Index 2: cart',
-    ),
+    Login(),
   ];
   void _onItemTapped(int index) {
     setState(() {
@@ -37,7 +38,7 @@ class _BottomNavState extends State<BottomNav> {
             label: 'Categories',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_sharp),
+            icon: Icon(Icons.person),
             label: 'Cart',
           ),
         ],
