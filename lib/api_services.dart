@@ -53,6 +53,8 @@ class ApiService {
         var res = convert.jsonDecode(response.body);
         print("my response is $res");
         return res;
+      }else if(response?.statusCode == 401){
+        Fluttertoast.showToast(msg: 'Unauthenticated');
       } else {
         var res = convert.jsonDecode(response!.body);
 

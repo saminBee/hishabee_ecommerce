@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:hishabee_ecommerce/theme1/controller/login_registration_controller/login_registration_controller.dart';
 import 'package:hishabee_ecommerce/theme1/view/category/categories.dart';
 import 'package:hishabee_ecommerce/theme1/view/home/home_page.dart';
 import 'package:hishabee_ecommerce/theme1/view/login%20registartion/login.dart';
@@ -12,8 +14,9 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
+  LoginRegistraionController _loginRegistraionController = Get.put(LoginRegistraionController());
   final box = GetStorage();
-  int _selectedIndex = 0;
+
   static  final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     Categories(),
@@ -21,12 +24,12 @@ class _BottomNavState extends State<BottomNav> {
   ];
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _loginRegistraionController.selectedIndex.value = index;
     });
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Obx(()=>Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -42,11 +45,11 @@ class _BottomNavState extends State<BottomNav> {
             label: 'Cart',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: _loginRegistraionController.selectedIndex.value,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
-      body: _widgetOptions[_selectedIndex],
-    );
+      body: _widgetOptions[_loginRegistraionController.selectedIndex.value],
+    ));
   }
 }

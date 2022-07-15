@@ -218,14 +218,14 @@ class Registration extends StatelessWidget {
                               mobile: _mobileNumberTextEditingController.value.text,
                               password: _passwordTextEditingController.value.text,
                               email: _mailTextEditingController.value.text
-                          );
-                          await _loginRegistraionController.login(
-                            password: _passwordTextEditingController.value.text,
-                            mobile: _mobileNumberTextEditingController.value.text
                           ).then((value){
                             box.write('token', '${value['access_token']}');
                           });
-                          Get.to(BottomNav());
+                          await _loginRegistraionController.profileDetailsFunction().then((value){
+                            _loginRegistraionController.profileDetails.value = value;
+                          });
+                          _loginRegistraionController.selectedIndex.value = 0;
+                          // Get.to(BottomNav());
                           Fluttertoast.showToast(msg: 'Account Created');
                         }
                       },

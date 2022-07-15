@@ -151,9 +151,68 @@ class HomePage extends StatelessWidget {
                                 Expanded(
                                   child: InkWell(
                                     onTap:(){
-                                      _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
-                                      _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
-                                      print('cart: ${_productController.cart[0]}');
+
+                                      if(_productController.cart.isEmpty){
+                                        _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
+                                        _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
+                                      }
+                                      else{
+                                        for(int i = 0; i<_productController.cart.length;i++){
+                                          if(_productController.cart[i].product['id'] == _productController.searchedProduct[index]['id']){
+                                            Get.defaultDialog(
+                                                title: 'Product is Already Added on the Cart',
+                                                onCancel: (){
+                                                  Get.back();
+                                                },
+                                                middleText: ''
+                                            );
+                                            // break;
+                                          }
+                                          if(_productController.cart[i].product['id'] != _productController.searchedProduct[index]['id']){
+                                            _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
+                                            _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
+                                            // break;
+                                          }
+                                        }
+                                      }
+                                      // _productController.cart.forEach((element) {
+                                      //   print(element);
+                                      //   if(element.contains(_productController.searchedProduct[index])){
+                                      //     Get.defaultDialog(
+                                      //         title: 'Product is Already Added on the Cart',
+                                      //         onCancel: (){
+                                      //           Get.back();
+                                      //         },
+                                      //         middleText: ''
+                                      //     );
+                                      //   }else{
+                                      //     _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
+                                      //     _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
+                                      //   }
+                                      // });
+                                      // print('cart:  ${_productController.cart.contains(_productController.searchedProduct[index])}');
+                                      // print('cart:  ${_productController.cart[0].product['id']}');
+                                      // print('product: ${_productController.searchedProduct[index]['id']}');
+                                      // if(_productController.cart.isEmpty){
+                                      //   _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
+                                      //   _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
+                                      // }
+                                      // for(int i = 0; i<_productController.cart.length;i++){
+                                      //
+                                      //   if(_productController.cart[i].product['id'] == _productController.searchedProduct[index]['id']){
+                                      //     Get.defaultDialog(
+                                      //         title: 'Product is Already Added on the Cart',
+                                      //         onCancel: (){
+                                      //           Get.back();
+                                      //         },
+                                      //         middleText: ''
+                                      //     );
+                                      //     break;
+                                      //   }else{
+                                      //     _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
+                                      //     _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
+                                      //   }
+                                      // }
                                     },
                                     child: Container(
                                       decoration: const BoxDecoration(

@@ -13,7 +13,7 @@ class LoginRegistraionController extends GetxController{
   final passwordTextEditingController = TextEditingController().obs;
   final profileDetails = Rxn<dynamic>();
   final box = GetStorage();
-
+  final selectedIndex = 0.obs;
   @override
   void onInit() async {
     profileDetailsFunction().then((value){

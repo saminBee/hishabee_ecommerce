@@ -9,12 +9,19 @@ import 'package:hishabee_ecommerce/utils.dart';
 
 import '../../../bottom_nav.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
 
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   final LoginRegistraionController _loginRegistationController = Get.put(LoginRegistraionController());
 
   final _formKeyLogin = GlobalKey<FormState>();
+
   final box = GetStorage();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -141,8 +148,9 @@ class Login extends StatelessWidget {
             ),
             child: InkWell(
               onTap: (){
+                _loginRegistationController.selectedIndex.value = 0;
                 box.remove('token');
-                Get.to(BottomNav());
+                // Get.to(BottomNav());
               },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
@@ -254,15 +262,21 @@ class Login extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: InkWell(
-                onTap: (){
+                onTap: () async {
                   if(_formKeyLogin.currentState!.validate()){
-                    _loginRegistationController.login(
+                    await _loginRegistationController.login(
                       mobile: _loginRegistationController.mobileNumberTextEditingController.value.text,
                       password: _loginRegistationController.passwordTextEditingController.value.text,
                     ).then((value){
                       box.write('token', '${value['access_token']}');
                     });
-                    Get.to(BottomNav());
+                    await _loginRegistationController.profileDetailsFunction().then((value){
+                      _loginRegistationController.profileDetails.value = value;
+                    });
+                    _loginRegistationController.selectedIndex.value = 0;
+                    // Get.to(const BottomNav());
+                    _loginRegistationController.mobileNumberTextEditingController.value.clear();
+                    _loginRegistationController.passwordTextEditingController.value.clear();
                     print('token: ${box.read('token')}');
                   }
                 },

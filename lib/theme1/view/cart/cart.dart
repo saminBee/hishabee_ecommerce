@@ -26,100 +26,102 @@ class _CartState extends State<Cart> {
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
-        child: Column(
-          children: [
-            Obx(()=>ListView.builder(
-              itemCount: _productController.cart.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                // for(int i = 0; i<_productController.cart.length;i++){
-                //   if(_productController.cart[index]['name'] > 1){
-                //
-                //   }
-                // }
-                return Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: Text('${_productController.cart[index].product['name']}')),
-                          Expanded(
-                            flex: 2,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Obx(()=>ListView.builder(
+                itemCount: _productController.cart.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  // for(int i = 0; i<_productController.cart.length;i++){
+                  //   if(_productController.cart[index]['name'] > 1){
+                  //
+                  //   }
+                  // }
+                  return Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: Text('${_productController.cart[index].product['name']}')),
+                            Expanded(
+                              flex: 2,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
 
-                                            setState((){
-                                              if(_productController.cart[index].quantity > 1){
-                                                --_productController.cart[index].quantity;
-                                                // if(_productController.cart[index].quantity == 0){
-                                                //   _productController.cart.remove(_productController.cart[index].product);
-                                                // }
-                                                _productController.totalCartValue.value = _productController.totalCartValue.value - _productController.cart[index].product['selling_price'];
-                                              }
-                                            });
+                                              setState((){
+                                                if(_productController.cart[index].quantity > 1){
+                                                  --_productController.cart[index].quantity;
+                                                  // if(_productController.cart[index].quantity == 0){
+                                                  //   _productController.cart.remove(_productController.cart[index].product);
+                                                  // }
+                                                  _productController.totalCartValue.value = _productController.totalCartValue.value - _productController.cart[index].product['selling_price'];
+                                                }
+                                              });
 
-                                          },
-                                          icon: const Icon(Icons.remove_circle_outline)),
-                                      Text('${_productController.cart[index].quantity}'),
-                                      IconButton(
-                                          onPressed: () {
-                                            setState((){
-                                              ++_productController.cart[index].quantity;
-                                              _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.cart[index].product['selling_price'];
-                                            });
-                                            print(_productController.cart[index].quantity);
-                                          },
-                                          icon: const Icon(Icons.add_circle_outline_sharp)),
-                                    ],
+                                            },
+                                            icon: const Icon(Icons.remove_circle_outline)),
+                                        Text('${_productController.cart[index].quantity}'),
+                                        IconButton(
+                                            onPressed: () {
+                                              setState((){
+                                                ++_productController.cart[index].quantity;
+                                                _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.cart[index].product['selling_price'];
+                                              });
+                                              print(_productController.cart[index].quantity);
+                                            },
+                                            icon: const Icon(Icons.add_circle_outline_sharp)),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Obx(()=> Text('৳ ${
-                                    _productController.cart[index].product['selling_price'] * _productController.cart[index].quantity
-                                }')),
-                                IconButton(
-                                    onPressed: (){
-                                      setState((){
+                                  Obx(()=> Text('৳ ${
+                                      _productController.cart[index].product['selling_price'] * _productController.cart[index].quantity
+                                  }')),
+                                  IconButton(
+                                      onPressed: (){
+                                        setState((){
 
-                                        _productController.totalCartValue.value =
-                                            _productController.totalCartValue.value - (_productController.cart[index].product['selling_price'] * _productController.cart[index].quantity);
-                                        _productController.cart.removeAt(index);
-                                      });
-                                    },
-                                    icon: Icon(Icons.dangerous, color: Colors.red,))
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ));
-              },
-            )),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: hish_blue
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Total: ',style: TextStyle(color: Colors.white),),
-                      Obx(()=>Text('${_productController.totalCartValue.value}',style: const TextStyle(color: Colors.white),))
+                                          _productController.totalCartValue.value =
+                                              _productController.totalCartValue.value - (_productController.cart[index].product['selling_price'] * _productController.cart[index].quantity);
+                                          _productController.cart.removeAt(index);
+                                        });
+                                      },
+                                      icon: Icon(Icons.dangerous, color: Colors.red,))
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ));
+                },
+              )),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: hish_blue
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Total: ',style: TextStyle(color: Colors.white),),
+                        Obx(()=>Text('${_productController.totalCartValue.value}',style: const TextStyle(color: Colors.white),))
 
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
