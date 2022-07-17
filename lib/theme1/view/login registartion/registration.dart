@@ -225,7 +225,8 @@ class Registration extends StatelessWidget {
                             _loginRegistraionController.profileDetails.value = value;
                           });
                           _loginRegistraionController.selectedIndex.value = 0;
-                          // Get.to(BottomNav());
+                          Get.back();
+                          Get.back();
                           Fluttertoast.showToast(msg: 'Account Created');
                         }
                       },

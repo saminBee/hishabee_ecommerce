@@ -275,6 +275,7 @@ class _LoginState extends State<Login> {
                     });
                     _loginRegistationController.selectedIndex.value = 0;
                     // Get.to(const BottomNav());
+                    Get.back();
                     _loginRegistationController.mobileNumberTextEditingController.value.clear();
                     _loginRegistationController.passwordTextEditingController.value.clear();
                     print('token: ${box.read('token')}');

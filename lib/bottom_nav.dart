@@ -42,7 +42,7 @@ class _BottomNavState extends State<BottomNav> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Cart',
+            label: 'Profile',
           ),
         ],
         currentIndex: _loginRegistraionController.selectedIndex.value,

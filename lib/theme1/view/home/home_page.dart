@@ -3,12 +3,15 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hishabee_ecommerce/theme1/controller/product_controller/product_controller.dart';
 import 'package:hishabee_ecommerce/theme1/model/cart/cart_model_class.dart';
 import 'package:hishabee_ecommerce/utils.dart';
 import 'package:get/get.dart';
 
+import '../../model/product/product_details.dart';
 import '../cart/cart.dart';
+import '../login registartion/address_setup.dart';
 class HomePage extends StatelessWidget {
 
   final ProductController _productController = Get.put(ProductController());
@@ -68,25 +71,30 @@ class HomePage extends StatelessWidget {
                   )
                 ],
               ),
-              Obx(()=>CarouselSlider(
-                options: CarouselOptions(
-                  height: 100,
-                  autoPlay: true,
+              Obx(()=>InkWell(
+                onTap: (){
+                  Get.to(SetupAddress());
+                },
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    height: 100,
+                    autoPlay: true,
+                  ),
+                  items: _productController.shop.value == null ? []: jsonDecode(_productController.shop.value['shop']['sliders']).map<Widget>((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: CachedNetworkImage(
+                                imageUrl: i,
+                              )),
+                        );
+                      },
+                    );
+                  }).toList(),
                 ),
-                items: _productController.shop.value == null ? []: jsonDecode(_productController.shop.value['shop']['sliders']).map<Widget>((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: CachedNetworkImage(
-                              imageUrl: i,
-                            )),
-                      );
-                    },
-                  );
-                }).toList(),
               )),
               const SizedBox(height: 20,),
               const Text('All Products', style: TextStyle(
@@ -97,6 +105,7 @@ class HomePage extends StatelessWidget {
                   controller: _productController.productScrollController.value,
                   itemCount: _productController.searchedProduct.length,
                   shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
                   gridDelegate:  const SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 200,
                       childAspectRatio: 1,
@@ -131,7 +140,7 @@ class HomePage extends StatelessWidget {
                                 Expanded(
                                   child: InkWell(
                                     onTap:(){
-
+                                        Get.to(ProductDetails(productIndex: index,));
                                     },
                                     child: Container(
                                       decoration: const BoxDecoration(
@@ -151,30 +160,62 @@ class HomePage extends StatelessWidget {
                                 Expanded(
                                   child: InkWell(
                                     onTap:(){
-
-                                      if(_productController.cart.isEmpty){
-                                        _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
-                                        _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
-                                      }
-                                      else{
-                                        for(int i = 0; i<_productController.cart.length;i++){
-                                          if(_productController.cart[i].product['id'] == _productController.searchedProduct[index]['id']){
-                                            Get.defaultDialog(
-                                                title: 'Product is Already Added on the Cart',
-                                                onCancel: (){
-                                                  Get.back();
-                                                },
-                                                middleText: ''
-                                            );
-                                            // break;
-                                          }
-                                          if(_productController.cart[i].product['id'] != _productController.searchedProduct[index]['id']){
-                                            _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
-                                            _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
-                                            // break;
-                                          }
+                                      bool itemFound = false;
+                                      for(var i=0;i<_productController.cart.length;i++)
+                                      {
+                                        if(_productController.cart.isNotEmpty && _productController.searchedProduct[index]['id'] == _productController.cart[i].product['id']){
+                                          itemFound = true;
+                                          _productController.cart[i].quantity++;
+                                          _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
+                                          Fluttertoast.showToast(msg: 'Product Number Increased');
+                                          break;
+                                        }else{
+                                          print('Item Not Exists');
                                         }
                                       }
+                                      if(itemFound == false){
+                                        _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
+                                        _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
+                                        Fluttertoast.showToast(msg: 'Product Added');
+                                        // print(itemFound);
+                                        // print(itemFound);
+                                        // Get.defaultDialog(
+                                        //     title: 'Product is Already Added on the Cart',
+                                        //     onCancel: (){
+                                        //       Get.back();
+                                        //     },
+                                        //     middleText: ''
+                                        // );
+                                      }
+                                      // else{
+                                      //   _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
+                                      //   _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
+                                      // }
+
+
+                                          // if(_productController.cart.isEmpty){
+                                      //   _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
+                                      //   _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
+                                      // }
+                                      // else{
+                                      //   for(int i = 0; i<_productController.cart.length;i++){
+                                      //     if(_productController.cart[i].product['id'] == _productController.searchedProduct[index]['id']){
+                                      //       Get.defaultDialog(
+                                      //           title: 'Product is Already Added on the Cart',
+                                      //           onCancel: (){
+                                      //             Get.back();
+                                      //           },
+                                      //           middleText: ''
+                                      //       );
+                                      //       // break;
+                                      //     }
+                                      //     if(_productController.cart[i].product['id'] != _productController.searchedProduct[index]['id']){
+                                      //       _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[index]));
+                                      //       _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[index]['selling_price'];
+                                      //       // break;
+                                      //     }
+                                      //   }
+                                      // }
                                       // _productController.cart.forEach((element) {
                                       //   print(element);
                                       //   if(element.contains(_productController.searchedProduct[index])){

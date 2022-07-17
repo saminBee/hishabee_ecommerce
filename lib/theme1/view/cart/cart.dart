@@ -24,7 +24,10 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Cart'),
+        titleSpacing: 0,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -101,25 +104,35 @@ class _CartState extends State<Cart> {
                       ));
                 },
               )),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: hish_blue
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Total: ',style: TextStyle(color: Colors.white),),
-                        Obx(()=>Text('${_productController.totalCartValue.value}',style: const TextStyle(color: Colors.white),))
-
-                      ],
+            ],
+          ),
+        ),
+      ),
+      bottomSheet: Container(
+        decoration: const BoxDecoration(
+            color: hish_blue
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Continue to Shipping',style: TextStyle(color: Colors.white, fontSize: 16),),
+              Row(
+                children: [
+                  const Text('Total: ',style: TextStyle(color: Colors.white, fontSize: 16),),
+                  Obx(()=>Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: Colors.white
                     ),
-                  ),
-                ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Text('৳${_productController.totalCartValue.value}',style: const TextStyle(color: Colors.black),),
+                      ))),
+                ],
               )
+
             ],
           ),
         ),
