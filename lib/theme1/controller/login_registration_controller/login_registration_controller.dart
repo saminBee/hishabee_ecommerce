@@ -27,19 +27,22 @@ class LoginRegistraionController extends GetxController{
   final districtName = 'District'.obs;
   @override
   void onInit() async {
-    profileDetailsFunction().then((value){
+    await profileDetailsFunction().then((value){
       profileDetails.value = value;
     });
 
-    getAllArea().then((value){
+    await getAllArea().then((value){
       area.value = value;
     });
 
-    getAllSelectedArea().then((value){
+    await getAllSelectedArea().then((value){
       allSelectedArea.value = value;
+      print('selected Area : ${allSelectedArea.value}');
     });
     super.onInit();
   }
+
+
 
   ///login
   Future<dynamic> login({password,mobile}) async {

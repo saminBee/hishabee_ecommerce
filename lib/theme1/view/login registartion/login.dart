@@ -269,6 +269,7 @@ class _LoginState extends State<Login> {
                       password: _loginRegistationController.passwordTextEditingController.value.text,
                     ).then((value){
                       box.write('token', '${value['access_token']}');
+                      print('token after login: ${value['access_token']}');
                     });
                     await _loginRegistationController.profileDetailsFunction().then((value){
                       _loginRegistationController.profileDetails.value = value;
