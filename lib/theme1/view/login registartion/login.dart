@@ -195,6 +195,7 @@ class _LoginState extends State<Login> {
             cursorColor: Colors.black,
             inputFormatters:[
               LengthLimitingTextInputFormatter(11),
+              FilteringTextInputFormatter.digitsOnly
             ],
             decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.person, color: Colors.amber,),

@@ -82,6 +82,7 @@ class Registration extends StatelessWidget {
                     cursorColor: Colors.black,
                     inputFormatters:[
                       LengthLimitingTextInputFormatter(11),
+                      FilteringTextInputFormatter.digitsOnly
                     ],
                     decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.phone, color: Colors.amber,),

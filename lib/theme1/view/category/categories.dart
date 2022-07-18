@@ -13,7 +13,12 @@ class Categories extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-          child: ListView.builder(
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                childAspectRatio: 1,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20),
             itemCount: _productController.categories.length,
             shrinkWrap: true,
             itemBuilder: (context, index){
@@ -26,7 +31,8 @@ class Categories extends StatelessWidget {
                 child: Card(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Row(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         _productController.categories[index]['icon'] == null ?
                             Container():
@@ -34,8 +40,8 @@ class Categories extends StatelessWidget {
                           imageUrl: _productController.categories[index]['icon'],
                           height: 30,
                         ),
-                        SizedBox(width: 10,),
-                        Text(_productController.categories[index]['name'])
+                        const SizedBox(height: 10,),
+                        Text(_productController.categories[index]['name'], textAlign: TextAlign.center,)
                       ],
                     ),
                   ),

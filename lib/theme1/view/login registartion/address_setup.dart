@@ -11,40 +11,6 @@ class SetupAddress extends StatefulWidget {
 class _SetupAddressState extends State<SetupAddress> {
   final LoginRegistraionController _loginRegistraionController = Get.find();
 
-  List<String> divisionName = [];
-  List<String> areaName = [];
-  List<String> districName = [];
-
-
-  @override
-  initState() {
-    checkArea();
-    super.initState();
-    // Add listeners to this class
-  }
-
-
-  checkArea(){
-    if(_loginRegistraionController.allSelectedArea.isNotEmpty){
-      for(int j = 0; j<_loginRegistraionController.allSelectedArea.length; j++){
-        for(int i = 0;i<_loginRegistraionController.area.length; i++){
-            if(_loginRegistraionController.allSelectedArea[j]['id'] == _loginRegistraionController.area[i]['id']){
-              divisionName.add(_loginRegistraionController.area[i]['name']);
-              for(int a = 0; a<_loginRegistraionController.area[i]['districts'].length; a++){
-                if(_loginRegistraionController.allSelectedArea[j]['district_id'] == _loginRegistraionController.area[i]['districts'][a]['id']){
-                  districName.add(_loginRegistraionController.area[i]['districts'][a]['name']);
-                  for(int b = 0; b<_loginRegistraionController.area[i]['districts'][a]['areas'].length; b++){
-                    if(_loginRegistraionController.allSelectedArea[j]['area_id'] == _loginRegistraionController.area[i]['districts'][a]['areas'][b]['id']){
-                      areaName.add(_loginRegistraionController.area[i]['districts'][a]['areas'][b]['id']);
-                    }
-                  }
-                }
-              }
-            }
-        }
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +32,7 @@ class _SetupAddressState extends State<SetupAddress> {
               height: 20,
             ),
             Column(children: [
-              ...divisionName.map(
+              ..._loginRegistraionController.selectedDivision.map(
                 (element) => Container(
                   width: double.infinity,
                   decoration: BoxDecoration(

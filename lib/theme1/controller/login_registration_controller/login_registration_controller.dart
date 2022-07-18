@@ -18,6 +18,11 @@ class LoginRegistraionController extends GetxController{
 
   ///shipping address list and
   final allSelectedArea = [].obs;
+  final selectedDivision = [];
+  final selectedArea = [];
+  final selectedDistrict = [];
+  final districName = [];
+
   final area = [].obs;
   final districtId = 0.obs;
   final areaId = 0.obs;
@@ -25,6 +30,10 @@ class LoginRegistraionController extends GetxController{
   final divisionName = 'Division'.obs;
   final areaName = 'Area'.obs;
   final districtName = 'District'.obs;
+
+  final allDivision = [].obs;
+  final allArea = [].obs;
+  final allDistrict = [].obs;
   @override
   void onInit() async {
     await profileDetailsFunction().then((value){
@@ -39,10 +48,48 @@ class LoginRegistraionController extends GetxController{
       allSelectedArea.value = value;
       print('selected Area : ${allSelectedArea.value}');
     });
+    await getAllArea();
+    getAllTheArea();
+    checkArea();
     super.onInit();
   }
 
+  getAllTheArea(){
+    for(int i = 0;i<area.length; i++){
+      allDivision.add(area[i]['name']);
+      for(int a = 0; a<area[i]['districts'].length; a++){
+        allDistrict.add(area[i]['districts'][a]['name']);
+        for(int b = 0; b<area[i]['districts'][a]['areas'].length; b++){
+          allArea.add(area[i]['districts'][a]['areas'][b]['name']);
+        }
+      }
+    }
+  }
 
+  checkArea(){
+    if(allSelectedArea.isNotEmpty){
+      for(int j = 0; j<allSelectedArea.length; j++){
+        for(int i = 0;i<area.length; i++){
+          if(allSelectedArea[j]['division_id'] == area[i]['id']){
+            selectedDivision.add(area[i]['name']);
+            for(int a = 0; a<area[i]['districts'].length; a++){
+              if(allSelectedArea[j]['district_id'] == area[i]['districts'][a]['id']){
+                selectedDistrict.add(area[i]['districts'][a]['name']);
+                for(int b = 0; b<area[i]['districts'][a]['areas'].length; b++){
+                  if(allSelectedArea[j]['area_id'] == area[i]['districts'][a]['areas'][b]['id']){
+                    selectedArea.add(area[i]['districts'][a]['areas'][b]['name']);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      print('selected division: $selectedDivision');
+      print('selected district: $selectedDistrict');
+      print('selected area: $selectedArea');
+    }
+  }
 
   ///login
   Future<dynamic> login({password,mobile}) async {
