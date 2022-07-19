@@ -25,11 +25,13 @@ class CheckoutController extends GetxController{
   final postalCode = ''.obs;
   final mobileNumber = ''.obs;
 
+  final districtWiseDivision = [].obs;
+  final divisionWiseArea = [].obs;
   ///add shipping address
-  Future<dynamic> addShippingAddress({areaId, districtId, divisionId}) async {
+  Future<dynamic> addShippingAddress({areaId, districtId, divisionId,address}) async {
     CustomDialog.showLoadingDialog(message: 'Please wait');
     String url = '/customer/shipping_address?shop_id=$shopId&area_id=$areaId&'
-        'district_id=$districtId&division_id=$divisionId';
+        'district_id=$districtId&division_id=$divisionId&address=$address';
     return await _apiService.makeApiRequest(
         method: apiMethods.post, url: url, body: null, headers: {'Authorization': 'Bearer ${box.read('token')}'});
   }
@@ -37,6 +39,20 @@ class CheckoutController extends GetxController{
   Future<dynamic> getShippingAddress({areaId, districtId, divisionId}) async {
     CustomDialog.showLoadingDialog(message: 'Please wait');
     String url = '/customer/shipping_address';
+    return await _apiService.makeApiRequest(
+        method: apiMethods.get, url: url, body: null, headers: {'Authorization': 'Bearer ${box.read('token')}'});
+  }
+
+  Future<dynamic> getAllDistrict({id}) async {
+    // CustomDialog.showLoadingDialog(message: 'Please wait');
+    String url = '/area/division/$id';
+    return await _apiService.makeApiRequest(
+        method: apiMethods.get, url: url, body: null, headers: {'Authorization': 'Bearer ${box.read('token')}'});
+  }
+
+  Future<dynamic> getAllArea({id}) async {
+    // CustomDialog.showLoadingDialog(message: 'Please wait');
+    String url = '/area/district/$id';
     return await _apiService.makeApiRequest(
         method: apiMethods.get, url: url, body: null, headers: {'Authorization': 'Bearer ${box.read('token')}'});
   }

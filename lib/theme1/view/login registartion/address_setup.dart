@@ -34,7 +34,7 @@ class _SetupAddressState extends State<SetupAddress> {
             ),
             Obx(()=>ListView.builder(
                 shrinkWrap: true,
-                itemCount: _loginRegistraionController.selectedDivision.length,
+                itemCount: _loginRegistraionController.allSelectedArea.length,
                 itemBuilder: (context, index){
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5.0),

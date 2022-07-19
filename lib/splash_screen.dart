@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     controller = AnimationController(
-        duration: Duration(milliseconds: 2500), vsync: this);
+        duration: const Duration(milliseconds: 2500), vsync: this);
     opacity = Tween<double>(begin: 1.0, end: 0.0).animate(controller)
       ..addListener(() {
         setState(() {});
@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void navigationPage() {
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => BottomNav()));
+        .pushReplacement(MaterialPageRoute(builder: (_) => const BottomNav()));
   }
 
   Widget build(BuildContext context) {

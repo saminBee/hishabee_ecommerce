@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hishabee_ecommerce/theme1/controller/cart_checkout/checkout_controller.dart';
 import 'package:hishabee_ecommerce/theme1/controller/login_registration_controller/login_registration_controller.dart';
 import 'package:hishabee_ecommerce/utils.dart';
@@ -8,7 +9,7 @@ import 'package:hishabee_ecommerce/utils.dart';
 import '../../../bottom_nav.dart';
 import 'delivery_info.dart';
 
-class ShippingInfo extends StatelessWidget {
+class  ShippingInfo extends StatelessWidget {
 
   final CheckoutController _checkoutController = Get.put(CheckoutController());
   final LoginRegistraionController _loginRegistraionController = Get.find();
@@ -132,7 +133,7 @@ class ShippingInfo extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Obx(()=>Text('${_checkoutController.division.value}')),
+                          Obx(()=>Text(_checkoutController.division.value)),
                           IconButton(onPressed: (){
                             _showDivisionDialog(context);
                           }, icon: Icon(Icons.arrow_drop_down_outlined))
@@ -194,6 +195,9 @@ class ShippingInfo extends StatelessWidget {
                       }
                     },
                     initialValue: _checkoutController.address.value,
+                    onChanged: (value){
+                      _checkoutController.address.value = value;
+                    },
                     keyboardType: TextInputType.text,
                     enabled: true,
                       textInputAction: TextInputAction.next,
@@ -327,7 +331,8 @@ class ShippingInfo extends StatelessWidget {
                           await _checkoutController.addShippingAddress(
                             areaId: _checkoutController.subDistrictId.value,
                             divisionId: _checkoutController.divisionId.value,
-                            districtId: _checkoutController.districtId.value
+                            districtId: _checkoutController.districtId.value,
+                            address: _checkoutController.address
                           );
                           await _checkoutController.getShippingAddress().then((value){
                             _loginRegistraionController.allSelectedArea.value = value;
@@ -347,6 +352,11 @@ class ShippingInfo extends StatelessWidget {
                               }
                             }
                           });
+                          _checkoutController.division.value = '';
+                          _checkoutController.district.value = '';
+                          _checkoutController.subDistrict.value = '';
+                          _checkoutController.address.value = '';
+                          _checkoutController.postalCode.value = '';
                           Get.back();
                           Get.back();
                           Get.back();
@@ -379,92 +389,29 @@ class ShippingInfo extends StatelessWidget {
     );
   }
 _showDivisionDialog(BuildContext context){
-    return showDialog(
-      context: context,
-      builder: (context) => Material(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.9,
-          width: MediaQuery.of(context).size.width / 1.5,
-          child: Column(
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.8,
-                width: MediaQuery.of(context).size.width / 1.2,
-                child: Obx(
-                      () => ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _loginRegistraionController.allDivision.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: (){
-                          _checkoutController.division.value = _loginRegistraionController.allDivision[index];
-                          _checkoutController.divisionId.value = _loginRegistraionController.allDivisionId[index];
-                          Get.back();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('${_loginRegistraionController.allDivision[index]}'),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Spacer(),
-                    TextButton(
-                      child: Text(
-                        'Close',
-                        style: TextStyle(
-                            color: hish_blue,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
-                      onPressed: () {
-                        Get.back();
-                        // controller.getAllProduct();
-                        // Get.back();
-                      },
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-}
-_showDistrictDialog(BuildContext context){
-  return showDialog(
-    context: context,
-    builder: (context) => Material(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.9,
+     Get.defaultDialog(
+      title: 'Select Division',
+      content: SizedBox(
+        // height: MediaQuery.of(context).size.height * 0.9,
         width: MediaQuery.of(context).size.width / 1.5,
         child: Column(
           // mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.8,
+              // height: MediaQuery.of(context).size.height * 0.8,
               width: MediaQuery.of(context).size.width / 1.2,
               child: Obx(
                     () => ListView.builder(
                   shrinkWrap: true,
-                  itemCount: _loginRegistraionController.allDistrict.length,
+                  itemCount: _loginRegistraionController.allDivision.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: (){
-                        _checkoutController.district.value = _loginRegistraionController.allDistrict[index];
-                        _checkoutController.districtId.value = _loginRegistraionController.allDistrictId[index];
+                      onTap: () async{
+                        _checkoutController.division.value = _loginRegistraionController.allDivision[index];
+                        _checkoutController.divisionId.value = _loginRegistraionController.allDivisionId[index];
+                        await _checkoutController.getAllDistrict(id: _checkoutController.divisionId.value).then((value){
+                          _checkoutController.districtWiseDivision.value = value;
+                        });
                         Get.back();
                       },
                       child: Padding(
@@ -472,7 +419,9 @@ _showDistrictDialog(BuildContext context){
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('${_loginRegistraionController.allDistrict[index]}'),
+                            SizedBox(
+                                width: 150,
+                                child: Text('${_loginRegistraionController.allDivision[index]}')),
                           ],
                         ),
                       ),
@@ -504,73 +453,143 @@ _showDistrictDialog(BuildContext context){
             )
           ],
         ),
+      ) ,
+    );
+}
+_showDistrictDialog(BuildContext context){
+  Get.defaultDialog(
+    title: 'Select District',
+    content: SizedBox(
+      // height: MediaQuery.of(context).size.height * 0.9,
+      width: MediaQuery.of(context).size.width / 1.5,
+      child: Column(
+        // mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.6,
+            width: MediaQuery.of(context).size.width / 1.2,
+            child: Obx(
+                  () => ListView.builder(
+                shrinkWrap: true,
+                itemCount: _checkoutController.districtWiseDivision.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () async{
+                      _checkoutController.district.value = _checkoutController.districtWiseDivision[index]['name'];
+                      _checkoutController.districtId.value = _checkoutController.districtWiseDivision[index]['id'];
+                      await _checkoutController.getAllArea(id: _checkoutController.districtId.value).then((value){
+                        _checkoutController.divisionWiseArea.value = value;
+                      });
+                      Get.back();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                              width: 150,
+                              child: Text('${_checkoutController.districtWiseDivision[index]['name']}')),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Spacer(),
+                TextButton(
+                  child: Text(
+                    'Close',
+                    style: TextStyle(
+                        color: hish_blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  onPressed: () {
+                    Get.back();
+                    // controller.getAllProduct();
+                    // Get.back();
+                  },
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     ),
   );
 }
 
   _showAreaDialog(BuildContext context){
-    return showDialog(
-      context: context,
-      builder: (context) => Material(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.9,
-          width: MediaQuery.of(context).size.width / 1.5,
-          child: Column(
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.8,
-                width: MediaQuery.of(context).size.width / 1.2,
-                child: Obx(
-                      () => ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _loginRegistraionController.allArea.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: (){
-                          _checkoutController.subDistrict.value = _loginRegistraionController.allArea[index];
-                          _checkoutController.subDistrictId.value = _loginRegistraionController.allAreaId[index];
-                          Get.back();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('${_loginRegistraionController.allArea[index]}'),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Spacer(),
-                    TextButton(
-                      child: Text(
-                        'Close',
-                        style: TextStyle(
-                            color: hish_blue,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
-                      onPressed: () {
+    Get.defaultDialog(
+      title: 'Select Area',
+      content: Column(
+        children: [
+          Container(
+            // height: MediaQuery.of(context).size.height * 0.8,
+            width: MediaQuery.of(context).size.width / 1.2,
+            child: Obx(
+                  () => Container(
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: _checkoutController.divisionWiseArea.length,
+                itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: (){
+                        _checkoutController.subDistrict.value = _checkoutController.divisionWiseArea[index]['name'];
+                        _checkoutController.subDistrictId.value = _checkoutController.divisionWiseArea[index]['id'];
                         Get.back();
-                        // controller.getAllProduct();
-                        // Get.back();
                       },
-                    ),
-                  ],
-                ),
-              )
-            ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 150,
+                              child: Text('${_checkoutController.divisionWiseArea[index]['name']}',
+                                maxLines: 2,
+                                style: const TextStyle(
+                                fontSize: 16
+                              ),),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                },
+              ),
+                  ),
+            ),
           ),
-        ),
+          Container(
+            child: Row(
+              children: [
+                Spacer(),
+                TextButton(
+                  child: Text(
+                    'Close',
+                    style: TextStyle(
+                        color: hish_blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  onPressed: () {
+                    Get.back();
+                    // controller.getAllProduct();
+                    // Get.back();
+                  },
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

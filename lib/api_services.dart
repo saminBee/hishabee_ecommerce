@@ -61,7 +61,11 @@ class ApiService {
       }
       else if(response?.statusCode == 401){
         Fluttertoast.showToast(msg: 'Unauthenticated');
-      } else {
+      } else if(response?.statusCode == 404){
+        Fluttertoast.showToast(msg: 'Account Not found, Please SignUp first');
+        Get.back();
+      }
+      else {
         var res = convert.jsonDecode(response!.body);
 
         handleError(res);

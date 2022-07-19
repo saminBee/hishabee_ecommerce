@@ -77,16 +77,21 @@ class DeliveryInfo extends StatelessWidget {
                 const Text('Select Address',style: TextStyle(
                     fontSize: 18, fontWeight: FontWeight.w500
                 ),),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: _loginRegistraionController.allSelectedArea.length,
+                const SizedBox(height: 10,),
+                Obx(()=>ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _loginRegistraionController.allSelectedArea.length,
                     itemBuilder: (context, index){
-                  return Card(
-                    child: Text(', '
-                        '${_loginRegistraionController.selectedDistrict[index]}, '
-                        '${_loginRegistraionController.selectedDivision[index]}'),
-                  );
-                })
+                      return Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('${_loginRegistraionController.allSelectedAddress[index]},'
+                              '${_loginRegistraionController.selectedArea[index]},'
+                              '${_loginRegistraionController.selectedDistrict[index]}, '
+                              '${_loginRegistraionController.selectedDivision[index]}'),
+                        ),
+                      );
+                    }))
               ],
             ),
           ),

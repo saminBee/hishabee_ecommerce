@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hishabee_ecommerce/theme1/controller/login_registration_controller/login_registration_controller.dart';
+import 'package:hishabee_ecommerce/theme1/view/cart/shiping_info.dart';
 import 'package:hishabee_ecommerce/theme1/view/home/home_page.dart';
 import 'package:hishabee_ecommerce/theme1/view/login%20registartion/registration.dart';
 import 'package:hishabee_ecommerce/utils.dart';
@@ -95,7 +96,7 @@ class _LoginState extends State<Login> {
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(6.0))),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               TextFormField(
                 initialValue: _loginRegistationController.profileDetails.value['address'] ?? '[Not Given]',
                 readOnly: true,
@@ -115,7 +116,7 @@ class _LoginState extends State<Login> {
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(6.0))),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               TextFormField(
                 initialValue: _loginRegistationController.profileDetails.value['nid_number'] ?? '[Not Given]',
                 readOnly: true,
@@ -134,6 +135,27 @@ class _LoginState extends State<Login> {
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(6.0))),
+              ),
+              const SizedBox(height: 20,),
+              InkWell(
+                onTap: (){
+                  Get.to(ShippingInfo());
+                },
+                child: Container(
+                  width: 200,
+                  decoration: BoxDecoration(
+                    color: hish_blue,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text('Add Shipping Address', style: TextStyle(
+                        color: Colors.white
+                      ),),
+                    ),
+                  ),
+                ),
               )
             ],
           ),
@@ -191,6 +213,7 @@ class _LoginState extends State<Login> {
             },
             controller: _loginRegistationController.mobileNumberTextEditingController.value,
             keyboardType: TextInputType.number,
+            textInputAction: TextInputAction.next,
             onChanged: (value) {},
             cursorColor: Colors.black,
             inputFormatters:[
@@ -270,17 +293,23 @@ class _LoginState extends State<Login> {
                       password: _loginRegistationController.passwordTextEditingController.value.text,
                     ).then((value){
                       box.write('token', '${value['access_token']}');
-                      print('token after login: ${value['access_token']}');
                     });
                     await _loginRegistationController.profileDetailsFunction().then((value){
                       _loginRegistationController.profileDetails.value = value;
                     });
+                    await _loginRegistationController.getAllArea().then((value){
+                      _loginRegistationController.area.value = value;
+                    });
+
+                    await _loginRegistationController.getAllSelectedArea().then((value){
+                      _loginRegistationController.allSelectedArea.value = value;
+                    });
+                    _loginRegistationController.checkArea();
                     _loginRegistationController.selectedIndex.value = 0;
                     // Get.to(const BottomNav());
                     Get.back();
                     _loginRegistationController.mobileNumberTextEditingController.value.clear();
                     _loginRegistationController.passwordTextEditingController.value.clear();
-                    print('token: ${box.read('token')}');
                   }
                 },
                 child: Container(

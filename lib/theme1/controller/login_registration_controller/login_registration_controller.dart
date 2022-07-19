@@ -22,6 +22,7 @@ class LoginRegistraionController extends GetxController{
   final selectedArea = [];
   final selectedDistrict = [];
   final districName = [];
+  final allSelectedAddress = [].obs;
 
   ///adding shipping address
   final area = [].obs;
@@ -54,6 +55,7 @@ class LoginRegistraionController extends GetxController{
     });
     await getAllArea();
     getAllTheArea();
+    await getAllSelectedArea();
     checkArea();
     super.onInit();
   }
@@ -76,6 +78,7 @@ class LoginRegistraionController extends GetxController{
   checkArea(){
     if(allSelectedArea.isNotEmpty){
       for(int j = 0; j<allSelectedArea.length; j++){
+        allSelectedAddress.add(allSelectedArea[j]['address']);
         for(int i = 0;i<area.length; i++){
           if(allSelectedArea[j]['division_id'] == area[i]['id']){
             selectedDivision.add(area[i]['name']);
@@ -126,7 +129,7 @@ class LoginRegistraionController extends GetxController{
   Future<dynamic> getAllArea() async {
     String url = '/area/all';
     return await _apiService.makeApiRequest(
-        method: apiMethods.get, url: url, body: null, headers: null);
+        method: apiMethods.get, url: url, body: null, headers: {'Authorization': 'Bearer ${box.read('token')}'});
   }
   Future<dynamic> getAllSelectedArea() async {
     String url = '/customer/shipping_address';

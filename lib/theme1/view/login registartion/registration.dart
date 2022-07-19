@@ -226,6 +226,14 @@ class Registration extends StatelessWidget {
                           await _loginRegistraionController.profileDetailsFunction().then((value){
                             _loginRegistraionController.profileDetails.value = value;
                           });
+                          await _loginRegistraionController.getAllArea().then((value){
+                            _loginRegistraionController.area.value = value;
+                          });
+
+                          await _loginRegistraionController.getAllSelectedArea().then((value){
+                            _loginRegistraionController.allSelectedArea.value = value;
+                          });
+                          _loginRegistraionController.checkArea();
                           _loginRegistraionController.selectedIndex.value = 0;
                           Get.back();
                           Get.back();
