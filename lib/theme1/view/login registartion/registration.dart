@@ -7,6 +7,7 @@ import 'package:hishabee_ecommerce/bottom_nav.dart';
 import 'package:hishabee_ecommerce/theme1/controller/login_registration_controller/login_registration_controller.dart';
 
 import '../../../utils.dart';
+import '../cart/shiping_info.dart';
 
 class Registration extends StatelessWidget {
 

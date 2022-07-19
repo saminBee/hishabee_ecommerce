@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+
 
 import 'utils.dart';
 import 'package:http/http.dart' as http;
@@ -53,7 +55,11 @@ class ApiService {
         var res = convert.jsonDecode(response.body);
         print("my response is $res");
         return res;
-      }else if(response?.statusCode == 401){
+      }else if(response?.statusCode == 409){
+        Get.back();
+        Fluttertoast.showToast(msg: 'Account Already Exist');
+      }
+      else if(response?.statusCode == 401){
         Fluttertoast.showToast(msg: 'Unauthenticated');
       } else {
         var res = convert.jsonDecode(response!.body);

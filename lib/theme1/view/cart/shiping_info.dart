@@ -5,6 +5,7 @@ import 'package:hishabee_ecommerce/theme1/controller/cart_checkout/checkout_cont
 import 'package:hishabee_ecommerce/theme1/controller/login_registration_controller/login_registration_controller.dart';
 import 'package:hishabee_ecommerce/utils.dart';
 
+import '../../../bottom_nav.dart';
 import 'delivery_info.dart';
 
 class ShippingInfo extends StatelessWidget {
@@ -114,6 +115,10 @@ class ShippingInfo extends StatelessWidget {
                   //   ),
                   // ),
                   // const SizedBox(height: 10,),
+                  const Text('Add Your Shipping Address', style: TextStyle(
+                    fontSize: 18, fontWeight: FontWeight.w600
+                  ),),
+                  const SizedBox(height: 10,),
                   const Text('Division'),
                   const SizedBox(height: 10,),
                   Container(
@@ -268,58 +273,83 @@ class ShippingInfo extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10,),
-                  const Text('Mobile Number'),
-                  const SizedBox(height: 10,),
-                  TextFormField(
-                    validator: (value){
-                      if(value!.isEmpty){
-                        return 'Mobile Number is required';
-                      }
-                    },
-                    initialValue: _checkoutController.mobileNumber.value,
-                    keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.done,
-                    inputFormatters:[
-                      LengthLimitingTextInputFormatter(11),
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
-                    decoration:  InputDecoration(
-                      hintText: "Mobile Number",
-                      hintStyle:
-                      TextStyle(fontSize: 14.0, fontFamily: 'Roboto'),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6.0),
-                          borderSide: const BorderSide(
-                            color: Colors.black,
-                          ),
-                        ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                        ),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                        ),
-                      )
-                    ),
-                  ),
-                  SizedBox(height: 10,),
+                  // const Text('Mobile Number'),
+                  // const SizedBox(height: 10,),
+                  // TextFormField(
+                  //   validator: (value){
+                  //     if(value!.isEmpty){
+                  //       return 'Mobile Number is required';
+                  //     }
+                  //   },
+                  //   initialValue: _checkoutController.mobileNumber.value,
+                  //   keyboardType: TextInputType.number,
+                  //     textInputAction: TextInputAction.done,
+                  //   inputFormatters:[
+                  //     LengthLimitingTextInputFormatter(11),
+                  //     FilteringTextInputFormatter.digitsOnly
+                  //   ],
+                  //   decoration:  InputDecoration(
+                  //     hintText: "Mobile Number",
+                  //     hintStyle:
+                  //     TextStyle(fontSize: 14.0, fontFamily: 'Roboto'),
+                  //       border: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(6.0),
+                  //         borderSide: const BorderSide(
+                  //           color: Colors.black,
+                  //         ),
+                  //       ),
+                  //     focusedBorder: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(6.0),
+                  //       borderSide: BorderSide(
+                  //         color: Colors.black,
+                  //       ),
+                  //     ),
+                  //     enabledBorder: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(6.0),
+                  //       borderSide: BorderSide(
+                  //         color: Colors.black,
+                  //       ),
+                  //     ),
+                  //     errorBorder: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(6.0),
+                  //       borderSide: BorderSide(
+                  //         color: Colors.black,
+                  //       ),
+                  //     )
+                  //   ),
+                  // ),
+                  // SizedBox(height: 10,),
                   Align(
                     alignment: FractionalOffset.bottomCenter,
                     child: InkWell(
-                      onTap: (){
+                      onTap: () async{
                         if(_formKey.currentState!.validate()){
-                          Get.to(DeliveryInfo());
+                          await _checkoutController.addShippingAddress(
+                            areaId: _checkoutController.subDistrictId.value,
+                            divisionId: _checkoutController.divisionId.value,
+                            districtId: _checkoutController.districtId.value
+                          );
+                          await _checkoutController.getShippingAddress().then((value){
+                            _loginRegistraionController.allSelectedArea.value = value;
+                            for(int i = 0;i<_loginRegistraionController.area.length; i++){
+                              if(_checkoutController.divisionId.value == _loginRegistraionController.area[i]['id']){
+                                _loginRegistraionController.selectedDivision.add(_loginRegistraionController.area[i]['name']);
+                                for(int a = 0; a<_loginRegistraionController.area[i]['districts'].length; a++){
+                                  if(_checkoutController.districtId.value == _loginRegistraionController.area[i]['districts'][a]['id']){
+                                    _loginRegistraionController.selectedDistrict.add(_loginRegistraionController.area[i]['districts'][a]['name']);
+                                    for(int b = 0; b<_loginRegistraionController.area[i]['districts'][a]['areas'].length; b++){
+                                      if(_checkoutController.subDistrictId.value == _loginRegistraionController.area[i]['districts'][a]['areas'][b]['id']){
+                                        _loginRegistraionController.selectedArea.add(_loginRegistraionController.area[i]['districts'][a]['areas'][b]['name']);
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          });
+                          Get.back();
+                          Get.back();
+                          Get.back();
                         }
                       },
                       child: Container(
@@ -330,7 +360,7 @@ class ShippingInfo extends StatelessWidget {
                         child: const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Center(
-                            child:  Text('Continue to Delivery Info',
+                            child:  Text('Add Address',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.white
@@ -369,6 +399,7 @@ _showDivisionDialog(BuildContext context){
                       return InkWell(
                         onTap: (){
                           _checkoutController.division.value = _loginRegistraionController.allDivision[index];
+                          _checkoutController.divisionId.value = _loginRegistraionController.allDivisionId[index];
                           Get.back();
                         },
                         child: Padding(
@@ -433,6 +464,7 @@ _showDistrictDialog(BuildContext context){
                     return InkWell(
                       onTap: (){
                         _checkoutController.district.value = _loginRegistraionController.allDistrict[index];
+                        _checkoutController.districtId.value = _loginRegistraionController.allDistrictId[index];
                         Get.back();
                       },
                       child: Padding(
@@ -498,6 +530,7 @@ _showDistrictDialog(BuildContext context){
                       return InkWell(
                         onTap: (){
                           _checkoutController.subDistrict.value = _loginRegistraionController.allArea[index];
+                          _checkoutController.subDistrictId.value = _loginRegistraionController.allAreaId[index];
                           Get.back();
                         },
                         child: Padding(

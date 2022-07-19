@@ -18,11 +18,12 @@ class LoginRegistraionController extends GetxController{
 
   ///shipping address list and
   final allSelectedArea = [].obs;
-  final selectedDivision = [];
+  final selectedDivision = [].obs;
   final selectedArea = [];
   final selectedDistrict = [];
   final districName = [];
 
+  ///adding shipping address
   final area = [].obs;
   final districtId = 0.obs;
   final areaId = 0.obs;
@@ -32,8 +33,11 @@ class LoginRegistraionController extends GetxController{
   final districtName = 'District'.obs;
 
   final allDivision = [].obs;
+  final allDivisionId = [].obs;
   final allArea = [].obs;
+  final allAreaId = [].obs;
   final allDistrict = [].obs;
+  final allDistrictId = [].obs;
   @override
   void onInit() async {
     await profileDetailsFunction().then((value){
@@ -57,10 +61,13 @@ class LoginRegistraionController extends GetxController{
   getAllTheArea(){
     for(int i = 0;i<area.length; i++){
       allDivision.add(area[i]['name']);
+      allDivisionId.add(area[i]['id']);
       for(int a = 0; a<area[i]['districts'].length; a++){
         allDistrict.add(area[i]['districts'][a]['name']);
+        allDistrictId.add(area[i]['districts'][a]['id']);
         for(int b = 0; b<area[i]['districts'][a]['areas'].length; b++){
           allArea.add(area[i]['districts'][a]['areas'][b]['name']);
+          allAreaId.add(area[i]['districts'][a]['areas'][b]['id']);
         }
       }
     }
