@@ -172,7 +172,7 @@ class _LoginState extends State<Login> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: const [
                       Text('Welcome', style: TextStyle(
-                        fontSize: 56, color: Colors.white,fontWeight: FontWeight.w800,
+                        fontSize: 56, color: Colors.white,fontWeight: FontWeight.bold,
                       ),),
                       Text('back', style: TextStyle(
                           fontSize: 56, color: Colors.white,fontWeight: FontWeight.w800,
