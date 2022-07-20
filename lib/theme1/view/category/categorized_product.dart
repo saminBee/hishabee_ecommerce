@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../utils.dart';
 import '../../model/cart/cart_model_class.dart';
-import '../../model/product/product_details.dart';
+import '../home/product_details.dart';
 import '../cart/cart.dart';
 class CategorizedProduct extends StatefulWidget {
   int? categoryId;

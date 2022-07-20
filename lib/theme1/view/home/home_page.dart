@@ -9,7 +9,7 @@ import 'package:hishabee_ecommerce/theme1/model/cart/cart_model_class.dart';
 import 'package:hishabee_ecommerce/utils.dart';
 import 'package:get/get.dart';
 
-import '../../model/product/product_details.dart';
+import 'product_details.dart';
 import '../cart/cart.dart';
 import '../login registartion/address_setup.dart';
 class HomePage extends StatelessWidget {

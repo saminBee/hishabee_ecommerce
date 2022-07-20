@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hishabee_ecommerce/theme1/controller/login_registration_controller/login_registration_controller.dart';
+import 'package:hishabee_ecommerce/theme1/controller/product_controller/product_controller.dart';
 import 'package:hishabee_ecommerce/theme1/view/cart/shiping_info.dart';
 import 'package:hishabee_ecommerce/theme1/view/home/home_page.dart';
 import 'package:hishabee_ecommerce/theme1/view/login%20registartion/registration.dart';
@@ -18,6 +19,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final LoginRegistraionController _loginRegistationController = Get.put(LoginRegistraionController());
+  final ProductController _productController = Get.find();
 
   final _formKeyLogin = GlobalKey<FormState>();
 
@@ -137,6 +139,7 @@ class _LoginState extends State<Login> {
             child: InkWell(
               onTap: (){
                 _loginRegistationController.selectedIndex.value = 0;
+                _productController.cart.value = [];
                 box.remove('token');
                 // Get.to(BottomNav());
               },
@@ -314,6 +317,7 @@ class _LoginState extends State<Login> {
                               });
                               _loginRegistationController.checkArea();
                               _loginRegistationController.selectedIndex.value = 0;
+
                               // Get.to(const BottomNav());
                               Get.back();
                               _loginRegistationController.mobileNumberTextEditingController.value.clear();

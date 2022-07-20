@@ -19,7 +19,7 @@ class  ShippingInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: hish_blue,
+        backgroundColor: primaryColor,
         title: const Text('Shipping Info'),
         titleSpacing: 0,
       ),

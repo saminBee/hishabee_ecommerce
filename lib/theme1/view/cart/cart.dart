@@ -27,100 +27,96 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: scaffoldBackgroundColor,
       appBar: AppBar(
+        backgroundColor: primaryColor,
         title: const Text('Cart'),
         titleSpacing: 0,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Obx(()=>ListView.builder(
-                itemCount: _productController.cart.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  // for(int i = 0; i<_productController.cart.length;i++){
-                  //   if(_productController.cart[index]['name'] > 1){
-                  //
-                  //   }
-                  // }
-                  return Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+        child: Obx(()=>ListView.builder(
+          itemCount: _productController.cart.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            // for(int i = 0; i<_productController.cart.length;i++){
+            //   if(_productController.cart[index]['name'] > 1){
+            //
+            //   }
+            // }
+            return Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(child: Text('${_productController.cart[index].product['name']}')),
+                      Expanded(
+                        flex: 2,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(child: Text('${_productController.cart[index].product['name']}')),
                             Expanded(
-                              flex: 2,
                               child: Row(
                                 children: [
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        IconButton(
-                                            onPressed: () {
-
-                                              setState((){
-                                                if(_productController.cart[index].quantity > 1){
-                                                  --_productController.cart[index].quantity;
-                                                  // if(_productController.cart[index].quantity == 0){
-                                                  //   _productController.cart.remove(_productController.cart[index].product);
-                                                  // }
-                                                  _productController.totalCartValue.value = _productController.totalCartValue.value - _productController.cart[index].product['selling_price'];
-                                                  _productController.shippingCost.value = _productController.shippingCost.value - _productController.cart[index].product['shipping_cost'];
-                                                }
-                                              });
-
-                                            },
-                                            icon: const Icon(Icons.remove_circle_outline)),
-                                        Text('${_productController.cart[index].quantity}'),
-                                        IconButton(
-                                            onPressed: () {
-                                              setState((){
-                                                ++_productController.cart[index].quantity;
-                                                _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.cart[index].product['selling_price'];
-                                                _productController.shippingCost.value = _productController.shippingCost.value + _productController.cart[index].product['shipping_cost'];
-                                              });
-                                              print(_productController.cart[index].quantity);
-                                            },
-                                            icon: const Icon(Icons.add_circle_outline_sharp)),
-                                      ],
-                                    ),
-                                  ),
-                                  Obx(()=> Text('৳ ${
-                                      _productController.cart[index].product['selling_price'] * _productController.cart[index].quantity
-                                  }')),
                                   IconButton(
-                                      onPressed: (){
-                                        setState((){
+                                      onPressed: () {
 
-                                          _productController.totalCartValue.value =
-                                              _productController.totalCartValue.value - (_productController.cart[index].product['selling_price'] * _productController.cart[index].quantity);
-                                          _productController.shippingCost.value = _productController.shippingCost.value - (_productController.cart[index].product['shipping_cost']  * _productController.cart[index].quantity);
-                                          _productController.cart.removeAt(index);
+                                        setState((){
+                                          if(_productController.cart[index].quantity > 1){
+                                            --_productController.cart[index].quantity;
+                                            // if(_productController.cart[index].quantity == 0){
+                                            //   _productController.cart.remove(_productController.cart[index].product);
+                                            // }
+                                            _productController.totalCartValue.value = _productController.totalCartValue.value - _productController.cart[index].product['selling_price'];
+                                            _productController.shippingCost.value = _productController.shippingCost.value - _productController.cart[index].product['shipping_cost'];
+                                          }
                                         });
+
                                       },
-                                      icon: Icon(Icons.dangerous, color: Colors.red,))
+                                      icon: const Icon(Icons.remove_circle_outline)),
+                                  Text('${_productController.cart[index].quantity}'),
+                                  IconButton(
+                                      onPressed: () {
+                                        setState((){
+                                          ++_productController.cart[index].quantity;
+                                          _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.cart[index].product['selling_price'];
+                                          _productController.shippingCost.value = _productController.shippingCost.value + _productController.cart[index].product['shipping_cost'];
+                                        });
+                                        print(_productController.cart[index].quantity);
+                                      },
+                                      icon: const Icon(Icons.add_circle_outline_sharp)),
                                 ],
                               ),
-                            )
+                            ),
+                            Obx(()=> Text('৳ ${
+                                _productController.cart[index].product['selling_price'] * _productController.cart[index].quantity
+                            }')),
+                            IconButton(
+                                onPressed: (){
+                                  setState((){
+
+                                    _productController.totalCartValue.value =
+                                        _productController.totalCartValue.value - (_productController.cart[index].product['selling_price'] * _productController.cart[index].quantity);
+                                    _productController.shippingCost.value = _productController.shippingCost.value - (_productController.cart[index].product['shipping_cost']  * _productController.cart[index].quantity);
+                                    _productController.cart.removeAt(index);
+                                  });
+                                },
+                                icon: Icon(Icons.dangerous, color: Colors.red,))
                           ],
                         ),
-                      ));
-                },
-              )),
-            ],
-          ),
-        ),
+                      )
+                    ],
+                  ),
+                ));
+          },
+        )),
       ),
       bottomSheet: InkWell(
         onTap: (){
           Get.to(DeliveryInfo());
         },
         child: Container(
-          decoration: const BoxDecoration(
-              color: hish_blue
+          decoration:  BoxDecoration(
+              color: primaryColor
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),

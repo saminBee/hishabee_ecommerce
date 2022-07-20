@@ -14,7 +14,7 @@ class DeliveryInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: hish_blue,
+        backgroundColor: primaryColor,
         titleSpacing: 0,
         title: const Text('Delivery Info'),
       ),
