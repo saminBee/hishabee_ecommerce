@@ -5,6 +5,7 @@ import 'package:hishabee_ecommerce/theme1/controller/login_registration_controll
 import 'package:hishabee_ecommerce/theme1/view/category/categories.dart';
 import 'package:hishabee_ecommerce/theme1/view/home/home_page.dart';
 import 'package:hishabee_ecommerce/theme1/view/login%20registartion/login.dart';
+import 'package:hishabee_ecommerce/utils.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Obx(()=>Scaffold(
+      resizeToAvoidBottomInset: false,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -46,7 +48,7 @@ class _BottomNavState extends State<BottomNav> {
           ),
         ],
         currentIndex: _loginRegistraionController.selectedIndex.value,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: primaryColor,
         onTap: _onItemTapped,
       ),
       body: _widgetOptions[_loginRegistraionController.selectedIndex.value],

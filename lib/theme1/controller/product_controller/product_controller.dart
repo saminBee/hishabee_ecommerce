@@ -17,6 +17,7 @@ class ProductController extends GetxController {
   final cart = <dynamic>[].obs;
   final categorizedProduct = [].obs;
   final totalCartValue = 0.0.obs;
+  final shippingCost = 0.0.obs;
   final shop = Rxn<dynamic>();
 
   // final cartPackage = FlutterCart();

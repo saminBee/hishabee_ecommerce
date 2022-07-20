@@ -14,6 +14,8 @@ enum apiMethods { get, post, patch, delete, put }
 const BASE_URL = 'https://dev.hishabee.business/api/V3';
 const shopId = 18;
 var selectedTheme = 1;
+Color primaryColor = const Color(0xFF5956E9);
+Color scaffoldBackgroundColor = const Color(0xFFE5E5E5);
 
 
 const LinearGradient mainButton = LinearGradient(colors: [

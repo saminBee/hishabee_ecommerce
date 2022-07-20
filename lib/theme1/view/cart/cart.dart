@@ -68,6 +68,7 @@ class _CartState extends State<Cart> {
                                                   //   _productController.cart.remove(_productController.cart[index].product);
                                                   // }
                                                   _productController.totalCartValue.value = _productController.totalCartValue.value - _productController.cart[index].product['selling_price'];
+                                                  _productController.shippingCost.value = _productController.shippingCost.value - _productController.cart[index].product['shipping_cost'];
                                                 }
                                               });
 
@@ -79,6 +80,7 @@ class _CartState extends State<Cart> {
                                               setState((){
                                                 ++_productController.cart[index].quantity;
                                                 _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.cart[index].product['selling_price'];
+                                                _productController.shippingCost.value = _productController.shippingCost.value + _productController.cart[index].product['shipping_cost'];
                                               });
                                               print(_productController.cart[index].quantity);
                                             },
@@ -95,6 +97,7 @@ class _CartState extends State<Cart> {
 
                                           _productController.totalCartValue.value =
                                               _productController.totalCartValue.value - (_productController.cart[index].product['selling_price'] * _productController.cart[index].quantity);
+                                          _productController.shippingCost.value = _productController.shippingCost.value - (_productController.cart[index].product['shipping_cost']  * _productController.cart[index].quantity);
                                           _productController.cart.removeAt(index);
                                         });
                                       },

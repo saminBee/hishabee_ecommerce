@@ -412,6 +412,10 @@ _showDivisionDialog(BuildContext context){
                         await _checkoutController.getAllDistrict(id: _checkoutController.divisionId.value).then((value){
                           _checkoutController.districtWiseDivision.value = value;
                         });
+                        _checkoutController.district.value = '';
+                        _checkoutController.subDistrict.value = '';
+                        _checkoutController.address.value = '';
+                        _checkoutController.postalCode.value = '';
                         Get.back();
                       },
                       child: Padding(

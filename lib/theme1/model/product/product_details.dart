@@ -160,6 +160,7 @@ class ProductDetails extends StatelessWidget {
                                           itemFound = true;
                                           _productController.cart[i].quantity++;
                                           _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[productIndex!]['selling_price'];
+                                          _productController.shippingCost.value = _productController.shippingCost.value + _productController.searchedProduct[productIndex!]['shipping_cost'];
                                           Fluttertoast.showToast(msg: 'Product Number Increased');
                                           break;
                                         }else{
@@ -169,6 +170,7 @@ class ProductDetails extends StatelessWidget {
                                       if(itemFound == false){
                                         _productController.cart.add(CartModelClass(quantity: 1, product: _productController.searchedProduct[productIndex!]));
                                         _productController.totalCartValue.value = _productController.totalCartValue.value + _productController.searchedProduct[productIndex!]['selling_price'];
+                                        _productController.shippingCost.value = _productController.shippingCost.value + _productController.searchedProduct[productIndex!]['shipping_cost'];
                                         Fluttertoast.showToast(msg: 'Product Added');
                                         // print(itemFound);
                                         // print(itemFound);
