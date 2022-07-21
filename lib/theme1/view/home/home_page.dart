@@ -9,6 +9,7 @@ import 'package:hishabee_ecommerce/theme1/model/cart/cart_model_class.dart';
 import 'package:hishabee_ecommerce/utils.dart';
 import 'package:get/get.dart';
 
+import '../category/categorized_product.dart';
 import 'product_details.dart';
 import '../cart/cart.dart';
 import '../login registartion/address_setup.dart';
@@ -96,13 +97,53 @@ class HomePage extends StatelessWidget {
                   }).toList(),
                 ),
               )),
-              const SizedBox(height: 20,),
+              const SizedBox(height: 10,),
+              const Text('All Categories', style: TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.bold
+              ),),
+              const SizedBox(height: 10,),
+              Obx(()=>Container(
+                height: 50,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _productController.categories.length,
+                    itemBuilder: (context, index){
+                      return Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: InkWell(
+                          onTap: (){
+                            Get.to(CategorizedProduct(
+                              categoryId: _productController.categories[index]['id'],
+                              categoryName: _productController.categories[index]['name'],
+                            ));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: primaryColor,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Center(
+                                child: Text('${_productController.categories[index]['name']}', style: TextStyle(
+                                    color: Colors.white
+                                ),),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                ),
+              )),
+              const SizedBox(height: 10,),
               const Text('All Products', style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.bold
               ),),
+              const SizedBox(height: 10,),
               Obx(()=>Expanded(
                 child: GridView.builder(
-                  controller: _productController.productScrollController.value,
+                  // physics: const NeverScrollableScrollPhysics(),
                   itemCount: _productController.searchedProduct.length,
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,

@@ -336,6 +336,7 @@ class  ShippingInfo extends StatelessWidget {
                           );
                           await _checkoutController.getShippingAddress().then((value){
                             _loginRegistraionController.allSelectedArea.value = value;
+                            _loginRegistraionController.allSelectedAddress.add(_checkoutController.address.value);
                             for(int i = 0;i<_loginRegistraionController.area.length; i++){
                               if(_checkoutController.divisionId.value == _loginRegistraionController.area[i]['id']){
                                 _loginRegistraionController.selectedDivision.add(_loginRegistraionController.area[i]['name']);

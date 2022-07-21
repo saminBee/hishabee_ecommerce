@@ -69,6 +69,7 @@ flutter:
   assets:
     - assets/splash_screen/
     - assets/placeholders/
+    - assets/icons/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -86,6 +87,9 @@ flutter:
     - family: Raleway
       fonts:
         - asset: fonts/Raleway-Light.ttf
+    - family: Raleway-bold
+      fonts:
+        - asset: fonts/Raleway-ExtraBold.ttf
   #       - asset: fonts/Raleway-Light.ttf
   #         style: italic
   #   - family: Trajan Pro

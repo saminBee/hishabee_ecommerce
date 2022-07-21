@@ -19,9 +19,9 @@ class LoginRegistraionController extends GetxController{
   ///shipping address list and
   final allSelectedArea = [].obs;
   final selectedDivision = [].obs;
-  final selectedArea = [];
-  final selectedDistrict = [];
-  final districName = [];
+  final selectedArea = [].obs;
+  final selectedDistrict = [].obs;
+  final districName = [].obs;
   final allSelectedAddress = [].obs;
 
   ///adding shipping address
@@ -56,7 +56,7 @@ class LoginRegistraionController extends GetxController{
     await getAllArea();
     getAllTheArea();
     await getAllSelectedArea();
-    checkArea();
+    checkCustomerShippingAddressArea();
     super.onInit();
   }
 
@@ -75,7 +75,7 @@ class LoginRegistraionController extends GetxController{
     }
   }
 
-  checkArea(){
+  checkCustomerShippingAddressArea(){
     if(allSelectedArea.isNotEmpty){
       for(int j = 0; j<allSelectedArea.length; j++){
         allSelectedAddress.add(allSelectedArea[j]['address']);
@@ -95,6 +95,7 @@ class LoginRegistraionController extends GetxController{
           }
         }
       }
+      print('selected address: $allSelectedAddress');
       print('selected division: $selectedDivision');
       print('selected district: $selectedDistrict');
       print('selected area: $selectedArea');
